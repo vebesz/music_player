@@ -1,6 +1,4 @@
-from traceback import print_tb
-
-from django.core.files.storage import default_storage
+from django.core.files.storage import FileSystemStorage, default_storage
 from django.shortcuts import redirect, render
 
 from . import forms
@@ -12,20 +10,19 @@ def home(request):
 
 def upload(request):
     if request.method == 'POST':
-        form = forms.UploadForm(request.POST)
-        print("not validated")
-        if form.is_valid():
-            print("valid")
-            print(request.FILES.get('image').name)
-            print(request.FILES['audio'].name)
-            # save cover image
-            #music = form.save(commit=False)
-            # music
+        form = forms.UploadForm(request.POST, request.FILES)
+        image = request.FILES['image']
+        audio = request.FILES['audio']
 
-            # return redirect('home')
+        if form.is_valid():
+            fs = FileSystemStorage()
+            fs.save(image.name, image)
+            fs.save(audio.name, audio)
+
+            return redirect('home')
     else:
         form = forms.UploadForm()
 
-    context = {'form': form, }
+    context = {'form': form}
 
     return render(request, 'base/upload/upload.html', context)

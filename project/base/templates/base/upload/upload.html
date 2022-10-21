@@ -2,12 +2,6 @@
 <h1>upload music</h1>
 <form action="" method="POST" enctype=multipart/form-data>
     {% csrf_token %} {{form.as_p}}
-    <!-- <label for="image">Upload the cover of the music:</label>
-    <input type="file" name="image" accept="image/png, image/jpeg" />
-   <br />
-    <label for="audio">Upload the audio file here:</label>
-    <input type="file" name="audio" accept="audio/" />
-    <br /> -->
     <input type="submit" name="upload" value="upload" />
 </form>
 {% endblock content %}
